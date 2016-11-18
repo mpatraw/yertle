@@ -75,6 +75,18 @@ impl Turtle {
         })
     }
 
+    pub fn x(&self) -> f64 {
+        self.state.x
+    }
+
+    pub fn y(&self) -> f64 {
+        self.state.y
+    }
+
+    pub fn angle(&self) -> f64 {
+        f64::to_degrees(self.state.angle)
+    }
+
     pub fn update(&mut self, delay: f64) -> bool {
         let ctx = &mut *self.ctx.borrow_mut();
         let target = ctx.renderer.render_target().unwrap().reset().unwrap().unwrap();
