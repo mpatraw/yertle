@@ -1,0 +1,7 @@
+[package]
+name = "yertle"
+version = "0.1.0"
+authors = ["Michael Patraw <michaelpatraw@gmail.com>"]
+
+[dependencies]
+sdl2 = "0.25"
