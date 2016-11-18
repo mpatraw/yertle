@@ -226,7 +226,8 @@ impl Turtle {
             Pen(down) => self.pen(down),
             Color(r, g, b) => self.color(r, g, b),
             PushState => self.push(),
-            PopState => self.pop()
+            PopState => self.pop(),
+            _ => {},
         }
     }
 }

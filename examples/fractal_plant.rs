@@ -15,7 +15,6 @@ fn main() {
     l.constant(']');
     let mut m = Machine::new();
     m.bind('F', Forward(3.0));
-    m.bind('1', Forward(3.0));
     m.bind('-', Rotate(-25.0));
     m.bind('+', Rotate(25.0));
     m.bind('[', PushState);

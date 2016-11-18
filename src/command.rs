@@ -14,5 +14,7 @@ pub enum Command {
     Pen(bool),
     Color(u8, u8, u8),
     PushState,
-    PopState
+    PopState,
+
+    Marker(u32)
 }
