@@ -8,7 +8,7 @@ use turtle::*;
 
 #[derive(Clone)]
 pub struct Program {
-    code: Vec<TurtleCommand>,
+    code: Vec<Command>,
     ip: usize
 }
 
@@ -24,7 +24,7 @@ impl Program {
         }
     }
 
-    pub fn execute_iter(&self) -> std::slice::Iter<TurtleCommand> {
+    pub fn execute_iter(&self) -> std::slice::Iter<Command> {
         self.code.iter()
     }
 
@@ -36,7 +36,7 @@ impl Program {
         }
     }
 
-    pub fn step_iter(&mut self, n: usize) -> std::slice::Iter<TurtleCommand> {
+    pub fn step_iter(&mut self, n: usize) -> std::slice::Iter<Command> {
         let end = std::cmp::min(self.ip + n, self.code.len());
         let old = self.ip;
         self.ip = end;
@@ -50,7 +50,7 @@ impl Program {
         }
     }
 
-    pub fn finish_iter(&mut self) -> std::slice::Iter<TurtleCommand> {
+    pub fn finish_iter(&mut self) -> std::slice::Iter<Command> {
         let old = self.ip;
         self.ip = self.code.len();
         self.code[old..].iter()
@@ -62,7 +62,7 @@ impl Program {
 }
 
 pub struct Machine {
-    commands: HashMap<char, Vec<TurtleCommand>>
+    commands: HashMap<char, Vec<Command>>
 }
 
 impl Machine {
@@ -72,11 +72,11 @@ impl Machine {
         }
     }
 
-    pub fn bind(&mut self, on: char, cmd: TurtleCommand) {
+    pub fn bind(&mut self, on: char, cmd: Command) {
         self.binds(on, vec![cmd]);
     }
 
-    pub fn binds(&mut self, on: char, cmds: Vec<TurtleCommand>) {
+    pub fn binds(&mut self, on: char, cmds: Vec<Command>) {
         self.commands.insert(on, cmds);
     }
 

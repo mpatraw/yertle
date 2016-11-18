@@ -1,7 +1,7 @@
 extern crate yertle;
 
 use yertle::*;
-use yertle::TurtleCommand::*;
+use yertle::Command::*;
 
 fn main() {
     let mut t = Turtle::new("yertle: dragon curve", 800, 600).unwrap();

@@ -210,8 +210,8 @@ impl Turtle {
         self.state = self.saved.pop().unwrap();
     }
 
-    pub fn execute(&mut self, cmd: TurtleCommand) {
-        use TurtleCommand::*;
+    pub fn execute(&mut self, cmd: Command) {
+        use Command::*;
         match cmd {
             Noop => {},
             Reset => self.reset(),

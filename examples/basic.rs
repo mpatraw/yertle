@@ -10,8 +10,8 @@ fn main() {
     t.goto(400.0, 300.0);
     while t.update(0.01) {
         t.color(n as u8, 0, 0);
-        t.execute(TurtleCommand::Rotate(45.0));
-        t.execute(TurtleCommand::Forward(n));
+        t.execute(Command::Rotate(45.0));
+        t.execute(Command::Forward(n));
         n += 1.0;
     }
 }

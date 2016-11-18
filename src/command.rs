@@ -1,6 +1,6 @@
 
 #[derive(Clone, Copy, PartialEq, Debug)]
-pub enum TurtleCommand {
+pub enum Command {
     Noop,
     Reset,
     Clear,
