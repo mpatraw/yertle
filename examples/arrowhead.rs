@@ -9,8 +9,6 @@ fn main() {
     let mut l = LSystem::new();
     l.variable('A', "+B-A-B+");
     l.variable('B', "-A+B+A-");
-    l.constant('+');
-    l.constant('-');
     let mut m = Machine::new();
     m.bind('A', Forward(20.0));
     m.bind('B', Forward(20.0));

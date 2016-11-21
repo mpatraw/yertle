@@ -24,7 +24,10 @@ impl LSystem {
     pub fn grow_once(&self, axiom: &str) -> String {
         let mut res = String::with_capacity(axiom.len() * 2);
         for c in axiom.chars() {
-            res.push_str(self.rules.get(&c).unwrap());
+            match self.rules.get(&c) {
+                Some(change) => res.push_str(change),
+                None => res.push_str(c.to_string().as_str())
+            }
         }
         res
     }

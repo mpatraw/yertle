@@ -9,10 +9,6 @@ fn main() {
     let mut l = LSystem::new();
     l.variable('0', "1[0|0]0");
     l.variable('1', "12");
-    l.constant('2');
-    l.constant('|');
-    l.constant('[');
-    l.constant(']');
     let mut m = Machine::new();
     m.binds('0', vec![Color(0, 255, 0), Forward(2.0), Color(255, 255, 255)]);
     m.bind('1', Forward(10.0));

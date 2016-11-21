@@ -8,8 +8,6 @@ fn main() {
 
     let mut l = LSystem::new();
     l.variable('F', "F+F-F-F+F");
-    l.constant('+');
-    l.constant('-');
     let mut m = Machine::new();
     m.bind('F', Forward(2.0));
     m.bind('+', Left(90.0));

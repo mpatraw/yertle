@@ -8,10 +8,6 @@ fn main() {
 
     let mut l = LSystem::new();
     l.variable('F', "FF-[-F+F+F]+[+F-F-F]");
-    l.constant('+');
-    l.constant('-');
-    l.constant('[');
-    l.constant(']');
     let mut m = Machine::new();
     m.bind('F', Forward(10.0));
     m.bind('-', Left(22.0));
