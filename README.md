@@ -1,6 +1,14 @@
 
 # Yertle, the Turtle Graphics Library
 
+Yertle is a toy turtle graphics library for Rust.
+
+## Example Code
+
+```rs
+
+```
+
 # Screenshots
 
 ![Dragon Curve](https://github.com/mpatraw/yertle/raw/master/doc/dragon_curve.png "Dragon Curve")

@@ -13,6 +13,10 @@ pub enum Command {
     Face(f64),
     Pen(bool),
     Color(u8, u8, u8),
+    BlendMul(f64, f64, f64),
+    BlendDiv(f64, f64, f64),
+    BlendAdd(u8, u8, u8),
+    BlendSub(u8, u8, u8),
     PushState,
     PopState,
 

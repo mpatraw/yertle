@@ -22,6 +22,10 @@ fn log_error<D: Display>(d: D) {
     writeln!(&mut std::io::stderr(), "{}", d).ok();
 }
 
+fn clamp<T>(v: T, lower: T, upper: T) -> T where T: std::cmp::Ord {
+    std::cmp::min(upper, std::cmp::max(lower, v))
+}
+
 struct Context {
     sdl: Sdl,
     renderer: Renderer<'static>
@@ -85,6 +89,30 @@ impl Turtle {
 
     pub fn angle(&self) -> f64 {
         f64::to_degrees(self.state.angle)
+    }
+
+    pub fn mouse_x(&self) -> f64 {
+        let ctx = &mut *self.ctx.borrow_mut();
+        let (_, x, _) = ctx.sdl.mouse().mouse_state();
+        x as f64
+    }
+
+    pub fn mouse_y(&self) -> f64 {
+        let ctx = &mut *self.ctx.borrow_mut();
+        let (_, _, y) = ctx.sdl.mouse().mouse_state();
+        y as f64
+    }
+
+    pub fn mouse_left(&self) -> bool {
+        let ctx = &mut *self.ctx.borrow_mut();
+        let (st, _, _) = ctx.sdl.mouse().relative_mouse_state();
+        st.left()
+    }
+
+    pub fn mouse_right(&self) -> bool {
+        let ctx = &mut *self.ctx.borrow_mut();
+        let (st, _, _) = ctx.sdl.mouse().relative_mouse_state();
+        st.right()
     }
 
     pub fn update(&mut self, delay: f64) -> bool {
@@ -197,6 +225,54 @@ impl Turtle {
         self.state.color = Color::RGB(r, g, b)
     }
 
+    pub fn blend_mul(&mut self, r: f64, g: f64, b: f64) {
+        match self.state.color {
+            Color::RGB(rr, gg, bb) | Color::RGBA(rr, gg, bb, _) => {
+                self.state.color = Color::RGB(
+                    f64::min((rr as f64) * r, 255.0) as u8,
+                    f64::min((gg as f64) * g, 255.0) as u8,
+                    f64::min((bb as f64) * b, 255.0) as u8,
+                );
+            }
+        }
+    }
+
+    pub fn blend_div(&mut self, r: f64, g: f64, b: f64) {
+        match self.state.color {
+            Color::RGB(rr, gg, bb) | Color::RGBA(rr, gg, bb, _) => {
+                self.state.color = Color::RGB(
+                    f64::min((rr as f64) / r, 255.0) as u8,
+                    f64::min((gg as f64) / g, 255.0) as u8,
+                    f64::min((bb as f64) / b, 255.0) as u8,
+                );
+            }
+        }
+    }
+
+    pub fn blend_add(&mut self, r: u8, g: u8, b: u8) {
+        match self.state.color {
+            Color::RGB(rr, gg, bb) | Color::RGBA(rr, gg, bb, _) => {
+                self.state.color = Color::RGB(
+                    clamp(rr as i32 + r as i32, 0, 255) as u8,
+                    clamp(gg as i32 + g as i32, 0, 255) as u8,
+                    clamp(bb as i32 + b as i32, 0, 255) as u8,
+                );
+            }
+        }
+    }
+
+    pub fn blend_sub(&mut self, r: u8, g: u8, b: u8) {
+        match self.state.color {
+            Color::RGB(rr, gg, bb) | Color::RGBA(rr, gg, bb, _) => {
+                self.state.color = Color::RGB(
+                    clamp(rr as i32 - r as i32, 0, 255) as u8,
+                    clamp(gg as i32 - g as i32, 0, 255) as u8,
+                    clamp(bb as i32 - b as i32, 0, 255) as u8,
+                );
+            }
+        }
+    }
+
     pub fn goto(&mut self, x: f64, y: f64) {
         self.state.x = x;
         self.state.y = y;
@@ -225,6 +301,10 @@ impl Turtle {
             Face(at) => self.face(at),
             Pen(down) => self.pen(down),
             Color(r, g, b) => self.color(r, g, b),
+            BlendMul(r, g, b) => self.blend_mul(r, g, b),
+            BlendDiv(r, g, b) => self.blend_div(r, g, b),
+            BlendAdd(r, g, b) => self.blend_add(r, g, b),
+            BlendSub(r, g, b) => self.blend_sub(r, g, b),
             PushState => self.push(),
             PopState => self.pop(),
             _ => {},

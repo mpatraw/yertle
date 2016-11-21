@@ -26,8 +26,10 @@ fn main() {
 
     t.goto(400.0, 600.0);
     t.face(-90.0);
-    while t.update(0.05) {
-        prog.step(&mut t, 500);
+    while t.update(0.0.0) {
+        if t.mouse_left() {
+            prog.step(&mut t, 500);
+        }
     }
 }
 
