@@ -3,6 +3,12 @@ extern crate yertle;
 use yertle::*;
 use yertle::Command::*;
 
+fn add_color(t: &mut Turtle) {
+    t.push();
+    let g = (t.g() as f64) / 63.0;
+    t.blend_mul(1.0, g * g * g, 0.95);
+}
+
 fn main() {
     let mut t = Turtle::new("yertle: seaweed", 800, 600).unwrap();
 
@@ -12,7 +18,7 @@ fn main() {
     m.bind('F', Forward(10.0));
     m.bind('-', Left(22.0));
     m.bind('+', Right(22.0));
-    m.binds('[', vec![PushState, BlendMul(1.0, 1.2, 0.95)]);
+    m.bind('[', Call(add_color));
     m.bind(']', PopState);
     let src = l.grow_n("F", 4);
     println!("#cmds: {}", src.len());

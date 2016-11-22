@@ -16,7 +16,6 @@ use sdl2::rect::Point;
 use sdl2::pixels::{Color, PixelFormatEnum};
 
 use command::*;
-//use lsystem::*;
 
 fn log_error<D: Display>(d: D) {
     writeln!(&mut std::io::stderr(), "{}", d).ok();
@@ -89,6 +88,24 @@ impl Turtle {
 
     pub fn angle(&self) -> f64 {
         f64::to_degrees(self.state.angle)
+    }
+
+    pub fn r(&self) -> u8 {
+        match self.state.color {
+            Color::RGB(r, _, _) | Color::RGBA(r, _, _, _) => r
+        }
+    }
+
+    pub fn g(&self) -> u8 {
+        match self.state.color {
+            Color::RGB(_, g, _) | Color::RGBA(_, g, _, _) => g
+        }
+    }
+
+    pub fn b(&self) -> u8 {
+        match self.state.color {
+            Color::RGB(_, _, b) | Color::RGBA(_, _, b, _) => b
+        }
     }
 
     pub fn mouse_x(&self) -> f64 {
@@ -292,6 +309,7 @@ impl Turtle {
             Noop => {},
             Reset => self.reset(),
             Clear => self.clear(),
+            Call(f) => f(self),
             Goto(x, y) => self.goto(x, y),
             Forward(by) => self.forward(by),
             Backward(by) => self.backward(by),

@@ -1,9 +1,12 @@
 
-#[derive(Clone, Copy, PartialEq, Debug)]
+use turtle::*;
+
+#[derive(Copy)]
 pub enum Command {
     Noop,
     Reset,
     Clear,
+    Call(fn(&mut Turtle) -> ()),
     Goto(f64, f64),
     Forward(f64),
     Backward(f64),
@@ -21,4 +24,9 @@ pub enum Command {
     PopState,
 
     Marker(u32)
+}
+
+// ???
+impl Clone for Command {
+    fn clone(&self) -> Self { *self }
 }
