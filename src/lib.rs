@@ -11,6 +11,7 @@ pub use command::*;
 pub use lsystem::*;
 pub use turtle::*;
 pub use vm::*;
+pub use command::Command::*;
 
 #[cfg(test)]
 mod tests {
